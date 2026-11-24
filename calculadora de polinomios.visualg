@@ -1,0 +1,64 @@
+algoritmo "Polinomios"
+var
+   p: vetor[1..4] de real
+   g, i, j: inteiro
+   x, y, f, m, esq, dir, delta: real
+inicio
+   escreva("Grau da equacao (1, 2 ou 3): ")
+   leia(g)
+   para i de 1 ate g + 1 faca
+      escreva("Coeficiente de x^", g - i + 1, ": ")
+      leia(p[i])
+   fimpara
+   se p[1] = 0 entao
+      escreval("O primeiro coeficiente nao pode ser zero.")
+   senao
+      se g = 1 entao
+         x <- -p[2] / p[1]
+         escreval("x = ", x:0:4)
+      senao
+         se g = 3 entao
+            m <- 0
+            para i de 2 ate 4 faca
+               se abs(p[i]) > m entao
+                  m <- abs(p[i])
+               fimse
+            fimpara
+            m <- 1 + m / abs(p[1])
+            esq <- -m
+            dir <- m
+            para i de 1 ate 200 faca
+               x <- (esq + dir) / 2
+               f <- 0
+               para j de 1 ate 4 faca
+                  f <- f * x + p[j]
+               fimpara
+               se p[1] * f > 0 entao
+                  dir <- x
+               senao
+                  esq <- x
+               fimse
+            fimpara
+            escreval("x = ", x:0:4)
+            para j de 2 ate 3 faca
+               p[j] <- p[j] + p[j - 1] * x
+            fimpara
+         fimse
+         delta <- p[2] * p[2] - 4 * p[1] * p[3]
+         se abs(delta) < 0.000001 entao
+            delta <- 0
+         fimse
+         se delta < 0 entao
+            x <- -p[2] / (2 * p[1])
+            y <- raizq(-delta) / (2 * p[1])
+            escreval("x = ", x:0:4, " + ", y:0:4, "i")
+            escreval("x = ", x:0:4, " - ", y:0:4, "i")
+         senao
+            x <- (-p[2] + raizq(delta)) / (2 * p[1])
+            escreval("x = ", x:0:4)
+            x <- (-p[2] - raizq(delta)) / (2 * p[1])
+            escreval("x = ", x:0:4)
+         fimse
+      fimse
+   fimse
+fimalgoritmo
